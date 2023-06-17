@@ -4,13 +4,19 @@ export class Binary {
   }
 
   textToBinary() {
-    var buf = new ArrayBuffer(this.text.length * 8); // 2 bytes for each char
-    var bufView = new BigInt64Array(buf);
-    for (var i = 0, strLen = this.text.length; i < strLen; i++) {
-      bufView[i] = BigInt(this.text.charCodeAt(i));
+    const buffer = new ArrayBuffer(this.text.length * 4); // 4 bytes for each char
+    const bufferView = new Int32Array(buffer);
+    for (let i = 0, strLen = this.text.length; i < strLen; i++) {
+      bufferView[i] = this.text.charCodeAt(i);
     }
-    console.log(bufView);
 
-    return buf;
+    return bufferView;
+  }
+
+  textToBase64() {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(this.text);
+    const base64String = btoa(String.fromCharCode(...data));
+    return base64String;
   }
 }
